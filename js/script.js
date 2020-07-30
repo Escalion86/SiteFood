@@ -48,35 +48,35 @@ window.addEventListener('DOMContentLoaded', () => {
           timerSeconds = document.querySelector('#seconds'),
           dateFinish = Date.parse("2020-07-30");
         
-          function getZero(num) {
-              if (num >= 0 && num < 10) {
-                  return `0${num}`;
-              } else {
-                  return num;
-              }
-          }
+    function getZero(num) {
+        if (num >= 0 && num < 10) {
+            return `0${num}`;
+        } else {
+            return num;
+        }
+    }
 
-          function setTimer() {
-            let now = new Date();
-            let dateDif = new Date(dateFinish - now);
-            
-            let days = dateDif.getDate();
-            let hours = dateDif.getHours();
-            let minutes = dateDif.getMinutes();
-            let seconds = dateDif.getSeconds();
+    function setTimer() {
+    let now = new Date();
+    let dateDif = new Date(dateFinish - now);
+    
+    let days = dateDif.getDate();
+    let hours = dateDif.getHours();
+    let minutes = dateDif.getMinutes();
+    let seconds = dateDif.getSeconds();
 
-            timerDays.textContent = getZero(days);
-            timerHours.textContent = getZero(hours);
-            timerMinutes.textContent = getZero(minutes);
-            timerSeconds.textContent = getZero(seconds);
+    timerDays.textContent = getZero(days);
+    timerHours.textContent = getZero(hours);
+    timerMinutes.textContent = getZero(minutes);
+    timerSeconds.textContent = getZero(seconds);
 
-            if (dateDif <= 0) {
-                clearInterval(timerRefresh);
-            }
-          }
+    if (dateDif <= 0) {
+        clearInterval(timerRefresh);
+    }
+    }
 
-          const timerRefresh = setInterval(setTimer, 1000);
-          setTimer();
+    const timerRefresh = setInterval(setTimer, 1000);
+    setTimer();
 
 //Модальное окно
     const modalWindow = document.querySelector('.modal'),
@@ -180,12 +180,19 @@ window.addEventListener('DOMContentLoaded', () => {
         return await res.json();
     };
 
-    getResourse('http://localhost:3000/menu')
+    // getResourse('http://localhost:3000/menu')
+    // .then(data => {
+    //     data.forEach(({img, altimg, title, descr, price}) => {
+    //         new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+    //     });
+    // })
+
+    axios.get('http://localhost:3000/menu')
     .then(data => {
-        data.forEach(({img, altimg, title, descr, price}) => {
+        data.data.forEach(({img, altimg, title, descr, price}) => {
             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
         });
-    })
+    });
 
 //Работа с сервером
     
@@ -296,4 +303,46 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('http://localhost:3000/menu')
     .then(data => data.json())
     .then(res => console.log(res));
+
+//Слайды
+
+    const slides = document.querySelectorAll('.offer__slide'),
+          prev = document.querySelector('.offer__slider-prev'),
+          next = document.querySelector('.offer__slider-next'),
+          total = document.querySelector('#total'),
+          current = document.querySelector('#current');
+    let slideIndex = 1;
+
+    showSlides(slideIndex);
+
+    total.textContent = getZero(slides.length);
+
+    function showSlides(n) {
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+
+        current.textContent = getZero(slideIndex);
+
+        slides.forEach(item => item.style.display = 'none');
+
+        slides[slideIndex - 1].style.display = 'block';
+    }
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    prev.addEventListener('click', () => {
+        plusSlides(-1);
+    });
+
+    next.addEventListener('click', () => {
+        plusSlides(1);
+    });
+
 });
