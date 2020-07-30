@@ -310,39 +310,46 @@ window.addEventListener('DOMContentLoaded', () => {
           prev = document.querySelector('.offer__slider-prev'),
           next = document.querySelector('.offer__slider-next'),
           total = document.querySelector('#total'),
-          current = document.querySelector('#current');
+          current = document.querySelector('#current'),
+          slidesWrapper = document.querySelector('.offer__slider-wrapper'),
+          slidesField = document.querySelector('.offer__slider-inner'),
+          width = parseInt(window.getComputedStyle(slidesWrapper).width, 10);
     let slideIndex = 1;
 
-    showSlides(slideIndex);
-
     total.textContent = getZero(slides.length);
+    current.textContent = getZero(slideIndex);
 
-    function showSlides(n) {
-        if (n > slides.length) {
-            slideIndex = 1;
-        }
+    slidesField.style.width = 100 * slides.length + '%';
+    slidesField.style.display = 'flex';
+    slidesField.style.transition = '0.5s all';
 
-        if (n < 1) {
-            slideIndex = slides.length;
-        }
+    slidesWrapper.style.overflow = 'hidden';
 
-        current.textContent = getZero(slideIndex);
-
-        slides.forEach(item => item.style.display = 'none');
-
-        slides[slideIndex - 1].style.display = 'block';
-    }
-
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
-
-    prev.addEventListener('click', () => {
-        plusSlides(-1);
+    slides.forEach(slide => {
+        slide.style.width = width + 'px';
     });
 
+    function showSlide(n) {
+        slidesField.style.transform = `translateX(-${(n - 1) * width}px)`;
+        current.textContent = getZero(n);
+    }
+
     next.addEventListener('click', () => {
-        plusSlides(1);
+        if (slideIndex == slides.length) {
+            slideIndex = 1;
+        } else {
+            slideIndex++;
+        }
+        showSlide(slideIndex);
+    });
+
+    prev.addEventListener('click', () => {
+        if (slideIndex == 1) {
+            slideIndex = slides.length;
+        } else {
+            slideIndex--;
+        }
+        showSlide(slideIndex);
     });
 
 });
