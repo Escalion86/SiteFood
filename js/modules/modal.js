@@ -26,10 +26,6 @@ function modal(triggerSelector, modalSelector, modalTimerId) {
         item.addEventListener('click', () => openModal(modalSelector, modalTimerId));
     });
 
-    /* modalClosers.forEach((item) => {
-        item.addEventListener('click', closeModal);
-    }); */
-
     modalWindow.addEventListener('click', (e) => {
         if (e.target === modalWindow || e.target.getAttribute('data-close') == '') {
             closeModal(modalSelector);

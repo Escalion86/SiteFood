@@ -25,27 +25,13 @@ function forms(formSelector, modalTimerID) {
                 display: block;
                 margin: 0 auto;
             `;
-            //form.append(statusMessage);
             form.insertAdjacentElement('afterend', statusMessage);
 
-            // const request = new XMLHttpRequest();
-            // request.open('POST', 'server.php');
-
-            //request.setRequestHeader('Content-type', 'application/json');
             const formData = new FormData(form);
-
-            // const object = {};
-            // formData.forEach(function(value,key) {
-            //     object[key] = value;
-            // });
 
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            //const json = JSON.stringify(object);
-            //request.send(json);
-            //request.send(formData);
             postData('http://localhost:3000/requests', json)
-            //.then(data => data.text())
             .then(data => {
                 console.log(data);
                 showThanksModal(message.success);
@@ -58,17 +44,6 @@ function forms(formSelector, modalTimerID) {
             .finally(() => {
                 form.reset();
             });
-
-            // request.addEventListener('load', () => {
-            //     if (request.status === 200) {
-            //         console.log(request.response);
-            //         showThanksModal(message.success);
-            //         form.reset();
-            //         statusMessage.remove();
-            //     } else {
-            //         showThanksModal(message.failure);
-            //     }
-            // });
         });
     }
 
@@ -96,10 +71,6 @@ function forms(formSelector, modalTimerID) {
             closeModal('.modal');
         }, 4000) 
     }
-
-    // fetch('http://localhost:3000/menu')
-    // .then(data => data.json())
-    // .then(res => console.log(res));
 }
 
 export default forms;

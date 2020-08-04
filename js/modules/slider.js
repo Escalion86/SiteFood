@@ -45,7 +45,7 @@ function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCo
         dot.classList.add('dot');
         
         if (i == slideIndex - 1) {
-        dot.style.opacity = 1;
+            dot.style.opacity = 1;
         }
         indicators.append(dot);
         dots.push(dot);

@@ -46,8 +46,6 @@ function calc() {
         } else {
             result.textContent = Math.round(( 88.36 + (13.4 * weight) + (4.8 *height) - (5.7 * age)) * ratio);
         }
-
-
     }
 
     calcTotal();
